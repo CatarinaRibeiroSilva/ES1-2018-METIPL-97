@@ -2,10 +2,9 @@ package projecto;
 
 public class BDA {
 
-
 	public static void main (String[] args) {
-		// inicio
-		GUI window= new GUI();
+		FacebookFeed facebookFeed = new FacebookFeed();
+		GUI window= new GUI(facebookFeed);
 		window.inicia();
 	}
 }

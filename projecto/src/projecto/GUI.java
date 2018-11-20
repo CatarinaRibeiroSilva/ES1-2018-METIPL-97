@@ -25,8 +25,10 @@ private JCheckBox check_email;
 private JCheckBox check_facebook;
 private JTabbedPane barra;
 private JTextArea posts;
-	public GUI () {
-	
+private FacebookFeed facebookFeed;
+
+	public GUI (FacebookFeed facebookFeed) {
+		this.facebookFeed = facebookFeed;
 		frame = new JFrame ();
 		
 		frame.setLayout(new BorderLayout() );
@@ -46,20 +48,17 @@ private JTextArea posts;
 		
 		frame.add(barra);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-
-	
 	}
 	
 	
 
 	private void desenha_painelPosts() {
 		
-		
+		facebookFeed.getTimeLinePost();
 	  
 	    posts = new JTextArea ("          ");
 	    scroll_posts = new JScrollPane(posts);
 	    posts.setLineWrap(true);
-	    
 	  
 
 	
@@ -70,7 +69,7 @@ private JTextArea posts;
 	private Component desenha_config() {
 	
 		JPanel config= new JPanel ();
-		
+	
 		
 		return config;
 	}
