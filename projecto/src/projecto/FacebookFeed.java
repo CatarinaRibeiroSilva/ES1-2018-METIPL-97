@@ -9,6 +9,7 @@ import com.restfb.types.Post;
 import com.restfb.types.User;
 
 public class FacebookFeed {
+	
 	public FacebookFeed() {
 		/* 
 		 * Facebook API Tutorials in Java # 1 | Setup Development Environment 

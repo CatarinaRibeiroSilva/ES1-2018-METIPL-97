@@ -13,7 +13,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
-
 public class GUI {
 private JFrame frame;
 private JSplitPane painel ;
