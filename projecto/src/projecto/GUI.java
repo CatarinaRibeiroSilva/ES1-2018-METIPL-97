@@ -36,10 +36,11 @@ private JCheckBox check_email;
 private JCheckBox check_facebook;
 private JTabbedPane barra;
 private JTextArea posts;
-private FacebookFeed facebookFeed;
+//private FacebookFeed facebookFeed;
 
 	//public GUI (FacebookFeed facebookFeed) {
 		//this.facebookFeed = facebookFeed;
+		
 private JList<String> lista_posts;
 private  DefaultListModel<String> model ;
 private String selectedValue;
@@ -75,7 +76,7 @@ public GUI () {
 //desenha o  painel das publicações
 	private void desenha_painelPosts() {
 		
-		facebookFeed.getTimeLinePost();
+		//facebookFeed.getTimeLinePost();
 	  
 	    //posts = new JTextArea ("          ");
 	    //scroll_posts = new JScrollPane(posts);
@@ -132,7 +133,6 @@ public GUI () {
 	private Component desenha_config() {
 	
 		JPanel config= new JPanel ();
-		
 		return config;
 	}
 
