@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 public class BDA {
 
-	public static void main (String[] args) {
 		//FacebookFeed facebookFeed = new FacebookFeed();
 		//GUI window= new GUI(facebookFeed);
+		// inicio teste bam
+
+
+	public static void main (String[] args) {
 		// inicio teste bam
 
 		GUI window= new GUI();
@@ -34,3 +37,4 @@ public class BDA {
 		window.update(posts);
 	}
 }
+//
