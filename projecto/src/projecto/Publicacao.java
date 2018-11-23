@@ -1,13 +1,15 @@
 package projecto;
 
+import java.util.Date;
+
 public class Publicacao implements Comparable <Publicacao>{
 	private String tipo ;
 	private String origem;
 	private String mensagem;
 	private String titulo;
-	private String data;
+	private Date data;
 
-	public Publicacao (String tipo, String origem, String mensagem, String data)  {
+	public Publicacao (String tipo, String origem, String mensagem, Date data)  {
 		this.tipo=tipo;
 		this.origem=origem;
 		this.mensagem=mensagem;
@@ -31,7 +33,7 @@ public class Publicacao implements Comparable <Publicacao>{
 		return titulo;
 	}
 
-	public String getData() {
+	public Date getData() {
 		return data;
 	}
 

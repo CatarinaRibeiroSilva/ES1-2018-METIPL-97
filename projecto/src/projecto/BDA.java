@@ -1,6 +1,7 @@
 package projecto;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BDA {
 
@@ -14,13 +15,14 @@ public class BDA {
 		//FacebookFeed facebook= new FacebookFeed (window);
 
 		//Testes de Publicacoes
-		Publicacao p= new Publicacao ("Facebook" , "maria", "Boa tarde em anexo envio as datas dos testes....", "21/11/2018");
-		Publicacao p1= new Publicacao ("Facebook" , "manuel", "Engenharia de Software 1 , Dia 23/11/2018 o segundo sprint é as dsadasdas", "21/11/2018");
-		Publicacao p2= new Publicacao ("Facebook" , "margarida.domingues", "Bom dia Academiia, Hoje o ISCTE bla bla bla bla bla bla bla bla bla", "21/11/2018");
-		Publicacao p3= new Publicacao ("Facebook" , "ana", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxx xxxx xxx xxx xxxx ", "21/11/2018");
+		Date d = new Date ();
+		Publicacao p= new Publicacao ("Facebook" , "maria", "Boa tarde em anexo envio as datas dos testes....", d);
+		Publicacao p1= new Publicacao ("Facebook" , "manuel", "Engenharia de Software 1 , Dia 23/11/2018 o segundo sprint é as dsadasdas", d);
+		Publicacao p2= new Publicacao ("Facebook" , "margarida.domingues", "Bom dia Academiia, Hoje o ISCTE bla bla bla bla bla bla bla bla bla", d);
+		Publicacao p3= new Publicacao ("Facebook" , "ana", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxx xxxx xxx xxx xxxx ", d);
 
-		Publicacao p4= new Publicacao ("Twitter" , "margarida", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxx xxxx xxx xxx xxxx ", "21/11/2018");
-		Publicacao p5= new Publicacao ("Email" , "margarida", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxx xxxx xxx xxx xxxx ", "21/11/2018");
+		Publicacao p4= new Publicacao ("Twitter" , "margarida", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxx xxxx xxx xxx xxxx ", d);
+		Publicacao p5= new Publicacao ("Email" , "margarida", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx xxxx xxxx xxx xxx xxxx ", d);
 
 		ArrayList<Publicacao> posts = new ArrayList<Publicacao>();
 		posts.add(p);
