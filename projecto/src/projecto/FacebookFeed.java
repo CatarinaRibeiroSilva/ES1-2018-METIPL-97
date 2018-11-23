@@ -62,8 +62,8 @@ public class FacebookFeed {
 					System.out.println("Message: "+aPost.getMessage());
 					System.out.println("Created: "+aPost.getCreatedTime());
 					counter5++;
-					Publicacao p = new Publicacao ("Facebook",aPost.getId(), aPost.getMessage() ,aPost.getCreatedTime());
-					publicacoes.add(p);
+					//Publicacao p = new Publicacao ("Facebook",aPost.getId(), aPost.getMessage() ,aPost.getCreatedTime());
+					//publicacoes.add(p);
 				}
 				counterTotal++;
 			}

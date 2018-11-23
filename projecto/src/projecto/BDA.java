@@ -2,6 +2,8 @@ package projecto;
 
 import java.util.ArrayList;
 
+import org.w3c.dom.Document;
+
 public class BDA {
 
 		//FacebookFeed facebookFeed = new FacebookFeed();
@@ -9,7 +11,7 @@ public class BDA {
 		// inicio teste bam
 
 
-	public static void main (String[] args) {
+	public static void main (String[] args) throws Exception {
 		// inicio teste bam
 
 		GUI window= new GUI();

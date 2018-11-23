@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<XML>	
+	<Service Account="crsao@iscte-iul.pt" Password="abcd" Protocol="imap"/>
+	<Service Account="afcmz@iscte-iul.pt" Password="efgh" Protocol="pop"/>
+	<Paths>
+		<docPath>/users/js/importantDocument.doc</docPath>
+		<logPath>/users/js/dailyLog.log</logPath>
+	</Paths>	
+<Service Account="manuel@iscte-iul.pt" Password="xyzw" Protocol="smtp"/>
+</XML>

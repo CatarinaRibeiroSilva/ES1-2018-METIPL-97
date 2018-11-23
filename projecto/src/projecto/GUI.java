@@ -24,6 +24,38 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+import javax.xml.parsers.DocumentBuilder;
+
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.UserDataHandler;
+import org.xml.sax.SAXException;
+
+import twitter4j.UserList;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+
+
 
 public class GUI {
 private JFrame frame;
@@ -36,17 +68,16 @@ private JCheckBox check_email;
 private JCheckBox check_facebook;
 private JTabbedPane barra;
 private JTextArea posts;
-//private FacebookFeed facebookFeed;
-
-	//public GUI (FacebookFeed facebookFeed) {
-		//this.facebookFeed = facebookFeed;
-		
 private JList<String> lista_posts;
 private  DefaultListModel<String> model ;
 private String selectedValue;
 private ArrayList<Publicacao> lista_publicacoes;
+private JPanel configPanel= new JPanel ();
+private  JScrollPane scroll_config;
+private File inputFile; 
+private JTextArea configText;
 
-public GUI () {
+public GUI () throws Exception, Exception {
 		
 		frame = new JFrame ();
 		
@@ -56,6 +87,7 @@ public GUI () {
 		
 		desenha_painel_seleccao();
 		desenha_painelPosts();
+		desenha_config();
 		
 		painel.setRightComponent(scroll_posts);
 	    painel.setLeftComponent(painel_seleccao);
@@ -63,7 +95,7 @@ public GUI () {
 		
 		barra = new JTabbedPane();
 		barra.addTab("BDA", painel);
-		barra.addTab("Config", desenha_config());
+		barra.addTab("Config", configPanel);
 		
 		lista_publicacoes = new ArrayList<Publicacao>();
 		
@@ -75,18 +107,8 @@ public GUI () {
 		
 //desenha o  painel das publicações
 	private void desenha_painelPosts() {
-		
-		//facebookFeed.getTimeLinePost();
-	  
-	    //posts = new JTextArea ("          ");
-	    //scroll_posts = new JScrollPane(posts);
-	    //posts.setLineWrap(true);
-	  
-	       lista_posts = new JList<String>();
+		lista_posts = new JList<String>();
 	       lista_posts.addListSelectionListener(new ListSelectionListener() {
-	       
-	       
-
     	@Override
 		public void valueChanged(ListSelectionEvent e) {
 				   if(!e.getValueIsAdjusting()) {
@@ -98,22 +120,17 @@ public GUI () {
 			                  if(post_seleccionado==0) {
 			                	  post.getMensagem();
 			                	  DesenhaPost(post) ;// Post = new DesenhaPost(post);
-			                	 
-			                  }
-			                 
+			                	  }
 		                  }
 		                }
     	}
     	});
-	       
-    	scroll_posts = new JScrollPane(lista_posts);
+	       scroll_posts = new JScrollPane(lista_posts);
 	       posts=new JTextArea();
 	       posts.setLineWrap(true);
-		    
 	}
 
 	protected void DesenhaPost(Publicacao post) {
-		
 		JFrame janela = new JFrame ("POST");
 		janela.setLayout(new BorderLayout() );
 
@@ -126,15 +143,84 @@ public GUI () {
 		Dimension d = new Dimension (400,400);
 		janela.setSize(d);
 		janela.setVisible(true);	
+	}
 
+	private void desenha_config() {
+		try {
+		inputFile = new File("config.xml");
 		
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document docConfig = dBuilder.parse(inputFile);
+        docConfig.getDocumentElement().normalize();         
+        System.out.println("\n A Carregar Configurações");
+		
+			
+		   //Utilizadores
+	    	//JTextArea  usersHeader = new JTextArea("Utilizadores");
+	    	//JTextArea usersList= new JTextArea();
+	    	
+	    
+	        XPathFactory xpathFactory = XPathFactory.newInstance();
+	        XPath xpath = xpathFactory.newXPath();
+	        XPathExpression expr = xpath.compile("/XML/Service/@*");
+	        NodeList nl = (NodeList) expr.evaluate(docConfig, XPathConstants.NODESET);
+	        for (int i = 0; i < nl.getLength(); i++) {
+	            System.out.print(nl.item(i).getNodeName()  + ": ");
+	            System.out.println(nl.item(i).getFirstChild().getNodeValue());
+	        }
+	        
+	        // Directorias    
+	        //JTextArea  pathHeader = new JTextArea("Pastas e outras Configurações");
+	        expr = xpath.compile("/XML/Paths/docPath");
+	        String str = (String) expr.evaluate(docConfig, XPathConstants.STRING);
+	        JTextArea  pathList = new JTextArea("docPath: " + str);
+	        System.out.println("docPath: " + str);
+	        
+	        scroll_config = new JScrollPane(configText);
+	       //configText.add(usersHeader);
+	       //configText.add(usersList);
+	       //configText.add(pathHeader);
+	       //configText.add(pathList);  
+	        SaveXML(docConfig);
+		}
+		catch (Exception e) { e.printStackTrace(); }
 	}
 
-	private Component desenha_config() {
 	
-		JPanel config= new JPanel ();
-		return config;
-	}
+	private void AddNewConfig(Document doc) {
+		
+        Element newElement1 = doc.createElement("Service");
+        newElement1.setAttribute("Protocol", "smtp");
+        newElement1.setAttribute("Account", "manuel@iscte-iul.pt");
+        newElement1.setAttribute("Password", "xyzw");
+        
+        // Adding new element OtherNewTag to the XML document (root node)
+        System.out.println("----- Adding new element <OtherNewTag> to the XML document -----");
+
+        Element newElement2 = doc.createElement("OtherNewTag");
+        newElement2.setTextContent("More new data"); 
+        
+        // Add new nodes to XML document (root element)
+        System.out.println("Root element :" + doc.getDocumentElement().getNodeName());         
+        Node n = doc.getDocumentElement();
+        n.appendChild(newElement1);
+        n.appendChild(newElement2);   
+    }      
+      
+	private void SaveXML(Document doc) {
+		try {
+        // Save XML document
+        //System.out.println("\nSave XML document.");
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        StreamResult result = new StreamResult(new FileOutputStream("config.xml"));
+        DOMSource source = new DOMSource(doc);
+        transformer.transform(source, result);
+		}
+		catch (Exception e) { e.printStackTrace(); }
+     } 
+	
 
 //desenha o painel dos filtros para fazer a selecção das fontes a aparecer 
 	private void desenha_painel_seleccao() {
@@ -148,8 +234,6 @@ public GUI () {
 		JLabel facebook= new JLabel("Facebook");
 
 		check_todos = new JCheckBox ();
-		
-		
 		check_twitter = new JCheckBox ();
 		check_email = new JCheckBox ();
 		check_facebook = new JCheckBox();
@@ -157,90 +241,60 @@ public GUI () {
 		ItemListener listener = new ItemListener() {
 		    @Override
 		    public void itemStateChanged(ItemEvent e) {
-		       
 		    Object source = e.getItemSelectable();
-		    
 		    if(check_facebook.isSelected() && !check_twitter.isSelected() && !check_email.isSelected()) {
 		    	model.clear();
-				
-
-		    	  for (Publicacao post : lista_publicacoes){
+		    	for (Publicacao post : lista_publicacoes){
 		    		  if(post.getTipo()=="Facebook" ) {
 		    			 model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
 		    		  	}
-		    		  
 		    	  }
-		    	  
 		      }
 		    	
 		      if(check_twitter.isSelected() && !check_facebook.isSelected() && !check_email.isSelected()) {
 		    	  model.clear();
-		  		
-
 		    	  for (Publicacao post : lista_publicacoes){
 		    		  if(post.getTipo()=="Twitter") {
 		    			 model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
 		    		  	}
-		    		  
 		    	  }
-		    	  
 		      }
 		    	
 		      if(check_email.isSelected() && !check_facebook.isSelected() && !check_twitter.isSelected()) {
 		    	  model.clear();
-		  		
-
 		    	  for (Publicacao post : lista_publicacoes){
 		    		  if(post.getTipo()=="Email") {
 		    			 model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
 		    		  	}
-		    		  
 		    	  }
-		    	  
 		      }
 		     
 		      //2 COMBINAÇÕES
 		      if(check_facebook.isSelected() && check_twitter.isSelected() && !check_email.isSelected()) {
 		    	 model.clear();
-		 	
-
 		    	  for (Publicacao post : lista_publicacoes){
 		    		  if(post.getTipo()=="Facebook" || post.getTipo()=="Twitter") {
 		    			 model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
 		    		  	}
-		    		  
 		    	  }
-		    	  
 		    	  	System.out.println("FACEBOOK e Twitter");
 			      }
-			      
-			      
 		      if(check_facebook.isSelected() && !check_twitter.isSelected() && check_email.isSelected()){
 		    	  model.clear();
-		  		
-
 		    	  for (Publicacao post : lista_publicacoes){
 		    		  if(post.getTipo()=="Facebook" || post.getTipo()=="Email") {
 		    			 model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
 		    		  	}
-		    		  
 		    	  }
-		    	  
 		      }
-		      
 		      if(check_twitter.isSelected() && !check_facebook.isSelected() && check_email.isSelected() ) {
 		    	  model.clear();
-		  		
-
 		    	  for (Publicacao post : lista_publicacoes){
 		    		  if(post.getTipo()=="Email" || post.getTipo()=="Twitter") {
 		    			 model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
 		    		  	}
-		    		  
 		    	  }
-		    	  
 		      }
-		      
 		      
 		      if((check_facebook.isSelected() && check_twitter.isSelected() && check_email.isSelected()) || check_todos.isSelected()) {
 		    		 model.clear();
@@ -254,9 +308,6 @@ public GUI () {
 		    	
 		    }
 		};
-		
-		
-		
 		check_todos.addItemListener(listener);
 		check_twitter.addItemListener(listener);
 		check_email.addItemListener(listener);
@@ -276,10 +327,8 @@ public GUI () {
 }
 
 	public void inicia() {
-		
 		frame.pack();
 		frame.setVisible(true);
-				
 	}
 
 	public void update(ArrayList<Publicacao> publicacoes) {
