@@ -69,7 +69,7 @@ public GUI () {
 	
 	}
 		
-//desenha o  painel das publicações
+//desenha o  painel das publicações e selecciona as publicações a apresentar
 	private void desenha_painelPosts() {
 		
 	       lista_posts = new JList<String>();
@@ -80,7 +80,7 @@ public GUI () {
     	@Override
 		public void valueChanged(ListSelectionEvent e) {
 				   if(!e.getValueIsAdjusting()) {
-		                 selectedValue = lista_posts.getSelectedValue();
+					   selectedValue = lista_posts.getSelectedValue();
 		                  
 		                  for (Publicacao post : lista_publicacoes){
 		                	  String n= post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n";
@@ -90,9 +90,9 @@ public GUI () {
 			                	  DesenhaPost(post) ;// Post = new DesenhaPost(post);
 			                	 
 			                  }
-			                 
 		                  }
 		                }
+				  
     	}
     	});
 	       
@@ -101,7 +101,7 @@ public GUI () {
 	       posts.setLineWrap(true);
 		    
 	}
-
+//Desenha a publicação desejada numa nova janela
 	protected void DesenhaPost(Publicacao post) {
 		
 		JFrame janela = new JFrame ("POST");
@@ -116,17 +116,17 @@ public GUI () {
 		Dimension d = new Dimension (400,400);
 		janela.setSize(d);
 		janela.setVisible(true);	
-
+		
 		
 	}
-
+//Desenha o painel de Configurações
 	private Component desenha_config() {
 	
 		JPanel config= new JPanel ();
 		return config;
 	}
 
-//desenha o painel dos filtros para fazer a selecção das fontes a aparecer 
+//desenha o painel dos filtros para fazer a selecção das fontes a aparecer , implementa os filtros do Twitter,Facebook e Email
 	private void desenha_painel_seleccao() {
 	
 		painel_seleccao= new JPanel() ;
@@ -264,14 +264,14 @@ public GUI () {
 		painel_seleccao.add(facebook);
 		painel_seleccao.add(check_facebook);
 }
-
+ //Inicia o programa
 	public void inicia() {
 		
 		frame.pack();
 		frame.setVisible(true);
 				
 	}
-
+//Faz o update das publicações publicadas por Facebook, Twitter e Email
 	public void update(ArrayList<Publicacao> publicacoes) {
 		
 		model = new DefaultListModel<>();
