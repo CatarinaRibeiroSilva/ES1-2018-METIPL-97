@@ -8,17 +8,13 @@ public class BDA {
 
 		//FacebookFeed facebookFeed = new FacebookFeed();
 		//GUI window= new GUI(facebookFeed);
-		// inicio teste bam
-
-
+		
 	public static void main (String[] args) throws Exception {
 		// inicio teste bam
-
 		GUI window= new GUI();
 		window.inicia();
 		
 		//FacebookFeed facebook= new FacebookFeed (window);
-
 		//Testes de Publicacoes
 		Publicacao p= new Publicacao ("Facebook" , "maria", "Boa tarde em anexo envio as datas dos testes....", "21/11/2018");
 		Publicacao p1= new Publicacao ("Facebook" , "manuel", "Engenharia de Software 1 , Dia 23/11/2018 o segundo sprint é as dsadasdas", "21/11/2018");
@@ -39,4 +35,3 @@ public class BDA {
 		window.update(posts);
 	}
 }
-//

@@ -14,12 +14,10 @@ public class FacebookFeed {
 	private ArrayList<Publicacao> publicacoes;
 	private GUI window;
 	public FacebookFeed(GUI window) {
-		/* 
-		 * Facebook API Tutorials in Java # 1 | Setup Development Environment 
+		/* Facebook API Tutorials in Java # 1 | Setup Development Environment 
 		 * https://www.youtube.com/watch?v=m14hYs1T3FA&index=1&list=PLYPFxrXyK0BwiXNe09hTPjFqYbsWv8gxb
 		 */
-		/* 
-		 * Facebook API Tutorials in Java # 2 | Get User Access Token
+		/* Facebook API Tutorials in Java # 2 | Get User Access Token
 		 * https://www.youtube.com/watch?v=GwbO_PdwK_4&index=2&list=PLYPFxrXyK0BwiXNe09hTPjFqYbsWv8gxb
 		 */
 		String accessToken2 = "EAABZCxnAyyqwBADSUuMoMAjLjM2eZAiX9rdxLdi2hzEdER9myyYHqbLEVGca5wqlN5OOh8OsFTqMgtkQryXaXciWZBZCJdjTDSNYP17Y0mdA9PZB3QdIDsB4vSorszZBJacoS44L9snyC0rAe9TYvni3F96lFfBOceaqs4YesAjhN0RQRTMR6U1r0ZC0JRBypZBc83pY4aY5dgZDZD";

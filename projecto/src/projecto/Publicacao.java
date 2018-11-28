@@ -37,7 +37,6 @@ public class Publicacao implements Comparable <Publicacao>{
 
 	@Override
 	public int compareTo(Publicacao arg0) {
-	
 		return 0;
 	}
 

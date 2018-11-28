@@ -55,8 +55,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
-
-
 public class GUI {
 private JFrame frame;
 private JSplitPane painel ;
@@ -80,18 +78,14 @@ private JTextArea configText;
 public GUI () throws Exception, Exception {
 		
 		frame = new JFrame ();
-		
 		frame.setLayout(new BorderLayout() );
-	
 		painel = new JSplitPane();
-		
 		desenha_painel_seleccao();
 		desenha_painelPosts();
 		desenha_config();
 		
 		painel.setRightComponent(scroll_posts);
 	    painel.setLeftComponent(painel_seleccao);
-		
 		
 		barra = new JTabbedPane();
 		barra.addTab("BDA", painel);
@@ -101,8 +95,6 @@ public GUI () throws Exception, Exception {
 		
 		frame.add(barra);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-
-	
 	}
 		
 //desenha o  painel das publicações
@@ -155,19 +147,14 @@ public GUI () throws Exception, Exception {
         docConfig.getDocumentElement().normalize();         
         System.out.println("\n A Carregar Configurações");
 		
-			
-		   //Utilizadores
-	    	//JTextArea  usersHeader = new JTextArea("Utilizadores");
-	    	//JTextArea usersList= new JTextArea();
 	    	
-	    
-	        XPathFactory xpathFactory = XPathFactory.newInstance();
-	        XPath xpath = xpathFactory.newXPath();
-	        XPathExpression expr = xpath.compile("/XML/Service/@*");
-	        NodeList nl = (NodeList) expr.evaluate(docConfig, XPathConstants.NODESET);
-	        for (int i = 0; i < nl.getLength(); i++) {
-	            System.out.print(nl.item(i).getNodeName()  + ": ");
-	            System.out.println(nl.item(i).getFirstChild().getNodeValue());
+	    XPathFactory xpathFactory = XPathFactory.newInstance();
+	    XPath xpath = xpathFactory.newXPath();
+	    XPathExpression expr = xpath.compile("/XML/Service/@*");
+	    NodeList nl = (NodeList) expr.evaluate(docConfig, XPathConstants.NODESET);
+	      for (int i = 0; i < nl.getLength(); i++) {
+	    	  System.out.print(nl.item(i).getNodeName()  + ": ");
+	          System.out.println(nl.item(i).getFirstChild().getNodeValue());
 	        }
 	        
 	        // Directorias    
