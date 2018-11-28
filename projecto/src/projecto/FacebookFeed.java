@@ -12,7 +12,6 @@ import com.restfb.types.User;
 public class FacebookFeed {
 	private ArrayList<Publicacao> publicacoes;
 	private GUI window;
-	
 	public FacebookFeed(GUI window) {
 		/* 
 		 * Facebook API Tutorials in Java # 1 | Setup Development Environment 
