@@ -158,7 +158,6 @@ public GUI () throws Exception, Exception {
 	        }
 	        
 	        // Directorias    
-	        //JTextArea  pathHeader = new JTextArea("Pastas e outras Configurações");
 	        expr = xpath.compile("/XML/Paths/docPath");
 	        String str = (String) expr.evaluate(docConfig, XPathConstants.STRING);
 	        JTextArea  pathList = new JTextArea("docPath: " + str);

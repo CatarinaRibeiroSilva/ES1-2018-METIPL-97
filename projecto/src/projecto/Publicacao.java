@@ -39,5 +39,4 @@ public class Publicacao implements Comparable <Publicacao>{
 	public int compareTo(Publicacao arg0) {
 		return 0;
 	}
-
 }

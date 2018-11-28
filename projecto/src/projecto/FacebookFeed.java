@@ -66,7 +66,7 @@ public class FacebookFeed {
 				counterTotal++;
 			}
 		}
-		System.out.println("-------------\nNº of Results: " + counter5+"/"+counterTotal);
+		System.out.println("------------\nNº of Results: " + counter5+"/"+counterTotal);
 		window.update(publicacoes);	
 	}		
 

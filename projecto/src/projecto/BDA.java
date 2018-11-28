@@ -30,8 +30,7 @@ public class BDA {
 		posts.add(p2);
 		posts.add(p3);
 		posts.add(p4);
-		posts.add(p5);
-		
+		posts.add(p5);		
 		window.update(posts);
 	}
 }

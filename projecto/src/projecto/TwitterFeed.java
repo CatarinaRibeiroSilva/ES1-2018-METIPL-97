@@ -8,9 +8,8 @@ import twitter4j.conf.ConfigurationBuilder;
 
 
 public final class TwitterFeed  {
-
 	public TwitterFeed(String filter) {
-		// http://twitter4j.org
+		//http://twitter4j.org
 		// http://twitter4j.org/en/code-examples.html
 		// https://www.youtube.com/watch?v=uYPmkzMpnxw
         try {
