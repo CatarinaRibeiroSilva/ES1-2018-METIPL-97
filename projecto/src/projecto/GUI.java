@@ -1,4 +1,4 @@
-package projecto;
+package projecto.src.projecto;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -97,7 +97,7 @@ public GUI () throws Exception, Exception {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 	}
 		
-//desenha o  painel das publicações
+//desenha o  painel das publicações e selecciona as publicações a apresentar 
 	private void desenha_painelPosts() {
 		lista_posts = new JList<String>();
 	       lista_posts.addListSelectionListener(new ListSelectionListener() {
@@ -121,7 +121,7 @@ public GUI () throws Exception, Exception {
 	       posts=new JTextArea();
 	       posts.setLineWrap(true);
 	}
-
+	 //Desenha a publicação desejada numa nova janela 
 	protected void DesenhaPost(Publicacao post) {
 		JFrame janela = new JFrame ("POST");
 		janela.setLayout(new BorderLayout() );
@@ -136,7 +136,7 @@ public GUI () throws Exception, Exception {
 		janela.setSize(d);
 		janela.setVisible(true);	
 	}
-
+	 //Desenha o painel de Configurações 
 	private void desenha_config() {
 		try {
 		inputFile = new File("config.xml");
@@ -208,7 +208,7 @@ public GUI () throws Exception, Exception {
      } 
 	
 
-//desenha o painel dos filtros para fazer a selecção das fontes a aparecer 
+	 //desenha o painel dos filtros para fazer a selecção das fontes a aparecer , implementa os filtros do Twitter,Facebook e Email 	
 	private void desenha_painel_seleccao() {
 	
 		painel_seleccao= new JPanel() ;
@@ -311,12 +311,12 @@ public GUI () throws Exception, Exception {
 		painel_seleccao.add(facebook);
 		painel_seleccao.add(check_facebook);
 }
-
+	  //Inicia o programa 
 	public void inicia() {
 		frame.pack();
 		frame.setVisible(true);
 	}
-
+	//Faz o update das publicações publicadas por Facebook, Twitter e Email
 	public void update(ArrayList<Publicacao> publicacoes) {
 		
 		model = new DefaultListModel<>();

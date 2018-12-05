@@ -1,5 +1,6 @@
-package projecto;
+package projecto.src.projecto;
 
+import java.util.ArrayList;
 import java.util.List;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -8,7 +9,15 @@ import twitter4j.conf.ConfigurationBuilder;
 
 
 public final class TwitterFeed  {
-	public TwitterFeed(String filter) {
+	private GUI gui;
+	private String filter;
+	private ArrayList<Publicacao> publicacoes;
+
+	public TwitterFeed(String filter, GUI gui) {
+		this.filter=filter;
+		this.gui=gui;
+		publicacoes= new ArrayList<Publicacao>();
+
 		//http://twitter4j.org
 		// http://twitter4j.org/en/code-examples.html
 		// https://www.youtube.com/watch?v=uYPmkzMpnxw
@@ -28,12 +37,14 @@ public final class TwitterFeed  {
             for (Status status : statuses) {
 				// Filters only tweets from user String filter;
 				if (status.getUser().getName() != null && status.getUser().getName().contains(filter)) {
-					System.out.println(status.getUser().getName() + ":" + status.getText());
+					System.out.println(status.getUser().getName() + ":" + status.getText() + "DATA" + status.getCreatedAt());
 					counter++;
+					publicacoes.add(new Publicacao ("Twitter",status.getUser().getName(), status.getText() ,status.getCreatedAt()));
 				}
 				counterTotal++;
             }
-    		System.out.println("-------------\nNº of Results: " + counter+"/"+counterTotal);
+    		gui.update(publicacoes);
+            System.out.println("-------------\nNº of Results: " + counter+"/"+counterTotal);
         } catch (Exception e) { System.out.println(e.getMessage()); }
      }
 }
