@@ -3,6 +3,7 @@ package projecto.src.projecto;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.InputMethodEvent;
@@ -11,6 +12,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
@@ -18,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -70,10 +73,10 @@ private JList<String> lista_posts;
 private  DefaultListModel<String> model ;
 private String selectedValue;
 private ArrayList<Publicacao> lista_publicacoes;
-private JPanel configPanel= new JPanel ();
+private JPanel configPanel;
 private  JScrollPane scroll_config;
 private File inputFile; 
-private JTextArea configText;
+//private JTextArea configText;
 
 public GUI () throws Exception, Exception {
 		
@@ -87,9 +90,11 @@ public GUI () throws Exception, Exception {
 		painel.setRightComponent(scroll_posts);
 	    painel.setLeftComponent(painel_seleccao);
 		
+	  
+		
 		barra = new JTabbedPane();
 		barra.addTab("BDA", painel);
-		barra.addTab("Config", configPanel);
+		barra.addTab("Config",configPanel);
 		
 		lista_publicacoes = new ArrayList<Publicacao>();
 		
@@ -100,7 +105,7 @@ public GUI () throws Exception, Exception {
 //desenha o  painel das publicações e selecciona as publicações a apresentar 
 	private void desenha_painelPosts() {
 		lista_posts = new JList<String>();
-	       lista_posts.addListSelectionListener(new ListSelectionListener() {
+	     lista_posts.addListSelectionListener(new ListSelectionListener() {
     	@Override
 		public void valueChanged(ListSelectionEvent e) {
 				   if(!e.getValueIsAdjusting()) {
@@ -138,6 +143,78 @@ public GUI () throws Exception, Exception {
 	}
 	 //Desenha o painel de Configurações 
 	private void desenha_config() {
+		
+		configPanel = new JPanel ();
+		configPanel.setLayout(new GridLayout(2,0));
+		
+		JPanel config_dados = new JPanel ();
+		config_dados.setLayout(new GridLayout(3,2));
+		
+		JPanel config_filtros = new JPanel();
+		JLabel filtros= new JLabel("Filtros");
+		config_filtros.add(filtros);
+
+		JLabel twitter = new JLabel("Twitter");
+		
+		JLabel user= new JLabel("Username");
+		JTextArea user_text= new JTextArea();
+		JLabel pass= new JLabel("Password");
+		
+		JPasswordField passwordtwitter = new JPasswordField(10);
+		
+		JPanel user_passt= new JPanel();
+		user_passt.setLayout(new GridLayout(2,2));
+		user_passt.add(user);
+		user_passt.add(user_text);
+		user_passt.add(pass);
+		user_passt.add(passwordtwitter);
+		
+		
+		JLabel facebook = new JLabel("Facebook");
+		JLabel user_face= new JLabel("Username");
+		JLabel pass_face= new JLabel("Password");
+
+		JPasswordField passwordfacebook = new JPasswordField(10);
+		JTextArea user_text_facebook= new JTextArea();
+
+		JPanel user_passf= new JPanel();
+		user_passf.setLayout(new GridLayout(2,2));
+		user_passf.add(user_face);
+		user_passf.add(user_text_facebook);
+		user_passf.add(pass_face);
+		user_passf.add(passwordfacebook);
+		
+		
+		
+		JLabel email = new JLabel("Email");
+		JLabel user_email= new JLabel("Username");
+		JLabel pass_email= new JLabel("Password");
+		JPasswordField passwordemail = new JPasswordField(10);
+		JTextArea user_text_email= new JTextArea();
+
+		JPanel user_pass_email= new JPanel();
+		user_pass_email.setLayout(new GridLayout(2,2));
+		user_pass_email.add(user_email);
+		user_pass_email.add(user_text_email);
+		user_pass_email.add(pass_email);
+		user_pass_email.add(passwordemail);
+		
+
+		config_dados.add(twitter);
+		config_dados.add(user_passt);
+		
+		config_dados.add(facebook);
+		config_dados.add(user_passf);
+
+		config_dados.add(email);
+		config_dados.add(user_pass_email);
+		
+		configPanel.add(config_dados);
+		configPanel.add(config_filtros);
+
+
+		
+	
 		try {
 		inputFile = new File("config.xml");
 		
@@ -160,17 +237,24 @@ public GUI () throws Exception, Exception {
 	        // Directorias    
 	        expr = xpath.compile("/XML/Paths/docPath");
 	        String str = (String) expr.evaluate(docConfig, XPathConstants.STRING);
-	        JTextArea  pathList = new JTextArea("docPath: " + str);
+	      //CATARINA  JTextArea  pathList = new JTextArea("docPath: " + str);
 	        System.out.println("docPath: " + str);
 	        
-	        scroll_config = new JScrollPane(configText);
-	       //configText.add(usersHeader);
+	       //CATARINA scroll_config = new JScrollPane(configText);
+	      
+	        //configText.add(usersHeader);
 	       //configText.add(usersList);
 	       //configText.add(pathHeader);
 	       //configText.add(pathList);  
 	        SaveXML(docConfig);
 		}
 		catch (Exception e) { e.printStackTrace(); }
+	
+	
+		
+		
+	
+	
 	}
 
 	
@@ -325,9 +409,13 @@ public GUI () throws Exception, Exception {
 		
 		if(lista_publicacoes.size()==0) {
 			lista_publicacoes=publicacoes;
+			Collections.sort(publicacoes);
+
 		}
 		else {
 			lista_publicacoes.addAll(publicacoes);
+			Collections.sort(publicacoes);
+
 		}
 		
 	for (Publicacao post : lista_publicacoes){
