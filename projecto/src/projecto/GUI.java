@@ -86,7 +86,12 @@ private String palavra_chave;
 private ArrayList<Publicacao> lista_publicacoes_filtradas;
 private XMLConfig config ;
 
-
+/**
+ * Classe que desenha a interface gráfica segundo o ficheiro XML config que contem todas as configurações
+ * @param config
+ * @throws Exception
+ * @throws Exception
+ */
 public GUI (XMLConfig config) throws Exception, Exception {
 		
 		this.config=config;
@@ -113,7 +118,9 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 	}
 		
-//desenha o  painel das publicações e selecciona as publicações a apresentar 
+/**Método que desenha o  painel das publicações e selecciona as publicações a apresentar 
+ * 
+ */
 	private void desenha_painelPosts() {
 		lista_posts = new JList<String>();
 	     lista_posts.addListSelectionListener(new ListSelectionListener() {
@@ -137,7 +144,10 @@ public GUI (XMLConfig config) throws Exception, Exception {
 	       posts=new JTextArea();
 	       posts.setLineWrap(true);
 	}
-	 //Desenha a publicação desejada numa nova janela 
+	 /**Método que desenha a publicação desejada numa nova janela 
+	  * 
+	  * @param Publicacao-post
+	  */
 	protected void DesenhaPost(Publicacao post) {
 		JFrame janela = new JFrame ("POST");
 		janela.setLayout(new BorderLayout() );
@@ -152,7 +162,10 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		janela.setSize(d);
 		janela.setVisible(true);	
 	}
-	 //Desenha o painel de Configurações 
+	 /**Método que desenha o painel de Configurações com os dados carregados do ficheiro config, desenha os utilizadores e os filtros 
+	  * utilizados
+	  * 
+	  */
 	private void desenha_config() {
 		
 		configPanel = new JPanel ();
@@ -247,7 +260,6 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		aplicar_panel.setLayout(null);
 		JButton aplicar = new JButton ("Aplicar");
 		aplicar.setSize(100, 50);
-		//aplicar.addActionListener(new ActionListener())
 		aplicar.addActionListener(new ActionListener() {
 		
 			@Override
@@ -273,7 +285,10 @@ public GUI (XMLConfig config) throws Exception, Exception {
 	
 	}
 
-	 //desenha o painel dos filtros para fazer a selecção das fontes a aparecer , implementa os filtros do Twitter,Facebook e Email 	
+	 /**Método que desenha o painel dos filtros para fazer a selecção das fontes a aparecer
+	  * implementa os filtros do Twitter,Facebook e Email 
+	  * 	
+	  */
 	private void desenha_painel_seleccao() {
 	
 		painel_seleccao= new JPanel() ;
@@ -376,13 +391,20 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		painel_seleccao.add(facebook);
 		painel_seleccao.add(check_facebook);
 }
-	 //Inicia o programa 
+	 /**Método que inicia a janela
+	  * 
+	  */
 	public void inicia() {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	//Faz o update das publicações publicadas por Facebook, Twitter e Email
-	//Actualiza o painel de publicacões
+	/**Método que faz o update das publicações a aparecer na janela segundo as publicações que recebe
+	 * o parametro boolean é referente ao facto destas publicações serem devidas a publicações carregadas pelas fontes ou
+	 * devido a filtros  
+	 * @param ArrayList<Publicacao>-publicacoes
+	 * @param boolean- b
+	 */
+	
 	public void update(ArrayList<Publicacao> publicacoes, boolean b) {
 		
 		model = new DefaultListModel<>();
@@ -417,7 +439,10 @@ public GUI (XMLConfig config) throws Exception, Exception {
 	}
 		
 
-	//Função que executa as configurações estabelecidas 
+	/**Função que executa as configurações estabelecidas pelos filtros 
+	 * chama o método update para fazer a actualização das mesmas
+	 * @return ArrayList<Publicacao>
+	 */
 	public ArrayList<Publicacao> filtros() {
 	
 		lista_publicacoes_filtradas = new ArrayList<>();
