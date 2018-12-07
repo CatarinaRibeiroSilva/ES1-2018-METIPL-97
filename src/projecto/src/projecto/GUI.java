@@ -46,7 +46,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.parsers.DocumentBuilder;
 
@@ -164,9 +166,10 @@ public GUI (XMLConfig config) throws Exception, Exception {
 	}
 	 /**Método que desenha o painel de Configurações com os dados carregados do ficheiro config, desenha os utilizadores e os filtros 
 	  * utilizados
+	 * @throws Exception 
 	  * 
 	  */
-	private void desenha_config() {
+	private void desenha_config() throws Exception {
 		
 		configPanel = new JPanel ();
 		configPanel.setLayout(new GridLayout(3,0));
@@ -179,7 +182,7 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		
 		JLabel user= new JLabel("Username");
 		
-		String user_twitter = config.getuser("Twitter");
+		String user_twitter = config.getUser("Twitter");
 		
 		JTextArea user_text= new JTextArea(user_twitter);
 		JLabel pass= new JLabel("Password");
@@ -200,7 +203,7 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		JLabel pass_face= new JLabel("Password");
 
 		JPasswordField passwordfacebook = new JPasswordField(10);
-		String user_facebook = config.getuser("Facebook");
+		String user_facebook = config.getUser("Facebook");
 		JTextArea user_text_facebook= new JTextArea(user_facebook);
 
 		JPanel user_passf= new JPanel();
@@ -217,7 +220,7 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		JLabel pass_email= new JLabel("Password");
 		JPasswordField passwordemail = new JPasswordField(10);
 		
-		String username_email = config.getuser("Email");
+		String username_email = config.getUser("Email");
 		JTextArea user_text_email= new JTextArea(username_email);
 
 		JPanel user_pass_email= new JPanel();
