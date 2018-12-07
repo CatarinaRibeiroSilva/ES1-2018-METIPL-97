@@ -9,13 +9,29 @@ import com.restfb.FacebookClient.AccessToken;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
+/**
+ * 
+ * @author afluz
+ * Returns recent facebook posts to the user interface;
+ *
+ */
+
 public class FacebookFeed {
 	
 	private ArrayList<Publicacao> publicacoes;
 	private GUI window;
 	
+	/**
+	 * 
+	 * @param window
+	 * user interface;
+	 */
 	
 	public FacebookFeed(GUI window) {
+		/**
+		 * @param acessToken2 (andrefilipe91@hotmail.com), facebook for developers;
+		 * @param extendedAcessToken4 (App, Secret);
+		 */
 		/* Facebook API Tutorials in Java # 1 | Setup Development Environment 
 		 * https://www.youtube.com/watch?v=m14hYs1T3FA&index=1&list=PLYPFxrXyK0BwiXNe09hTPjFqYbsWv8gxb
 		 */
@@ -33,6 +49,7 @@ public class FacebookFeed {
 		 * Facebook API Tutorials in Java # 4 | Create Your Own Fb APP & Extend User Access Token  
 		 * https://www.youtube.com/watch?v=qFZazZ1JXsM&list=PLYPFxrXyK0BwiXNe09hTPjFqYbsWv8gxb&index=5
 		 */
+		
 		String accessToken4 = "EAAbbt5t1cykBAOdNzGZBPw7uxpD4tHPOPWjMFgoB9fgdZCzwaEEdaFT4iytsRJ63J30Fo5lHZACTPEwJpv1kcfjO0tMVI097DhrGkiZCWdiF7lgTro8r8oLzHreTnmkLBH8TzpBEu8r0di1c1EQVD9JZCDh9ctELKUvXsjrmu8tml42hSRat5ykUlZBbi1DGItVl3zedxda4gPzDzlqRew";
 		FacebookClient fbClient4 = new DefaultFacebookClient(accessToken4);
 		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("140490262629036","8bf7ae051a204a555319dfd33c1165d9");
@@ -41,6 +58,9 @@ public class FacebookFeed {
 	}
 	
 	public void getTimeLinePost() {
+		/**
+		 * returns recent facebook feed and and publishes it in the user interface;
+		 */
 		/* 
 		 * Facebook API Tutorials in Java # 5 | Get User Timeline Posts
 		 * https://www.youtube.com/watch?v=wiFif4gOdFE&index=6&list=PLYPFxrXyK0BwiXNe09hTPjFqYbsWv8gxb

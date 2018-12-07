@@ -8,7 +8,12 @@ import java.util.Date;
 import org.w3c.dom.Document;
 
 public class BDA {
-
+		/**
+		 * 
+		 * @param args
+		 * @throws Exception
+		 */
+	
 		//FacebookFeed facebookFeed = new FacebookFeed();
 		//GUI window= new GUI(facebookFeed);
 		

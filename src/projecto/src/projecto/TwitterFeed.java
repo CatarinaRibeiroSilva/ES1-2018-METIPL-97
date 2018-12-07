@@ -7,14 +7,30 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * 
+ * @author afluz
+ * Returns tweets related to a defined word, or, if that word is included in the tweet itself;
+ *
+ */
 
 public final class TwitterFeed  {
 	private GUI gui;
 	private String filter;
 	private ArrayList<Publicacao> publicacoes;
 	
+	/**
+	 * 
+	 * @param filter 
+	 * filters recent tweets by the last 24hrs;
+	 * @param gui
+	 * user interface;
+	 */
 
 	public TwitterFeed(String filter, GUI gui) {
+		/**
+		 * returns the twitter feed filtered by a defined word;
+		 */
 		this.filter=filter;
 		this.gui=gui;
 		publicacoes= new ArrayList<Publicacao>();
