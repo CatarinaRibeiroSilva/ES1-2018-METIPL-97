@@ -83,8 +83,18 @@ public class XMLConfig {
 	    }
 	    return account;
 	}
-    
-    
+
+	public void setFiltro24(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setFiltro_pesquisa(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
     /**
      * Guarda todas as configurações adicionadas ao xml
      */
@@ -101,19 +111,4 @@ public class XMLConfig {
 		catch (Exception e) { e.printStackTrace(); }
      }
 
-	public void setFiltro24(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setFiltro_pesquisa(String text) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public ArrayList<Publicacao> getPublicacoes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
