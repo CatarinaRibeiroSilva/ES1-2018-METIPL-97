@@ -37,13 +37,12 @@ public final class TwitterFeed  {
             for (Status status : statuses) {
 				// Filters only tweets from user String filter;
 				if (status.getUser().getName() != null && status.getUser().getName().contains(filter)) {
-					System.out.println(status.getUser().getName() + ":" + status.getText() + "DATA" + status.getCreatedAt());
 					counter++;
 					publicacoes.add(new Publicacao ("Twitter",status.getUser().getName(), status.getText() ,status.getCreatedAt()));
 				}
 				counterTotal++;
             }
-    		gui.update(publicacoes);
+    		gui.update(publicacoes,false);
             System.out.println("-------------\nNº of Results: " + counter+"/"+counterTotal);
         } catch (Exception e) { System.out.println(e.getMessage()); }
      }

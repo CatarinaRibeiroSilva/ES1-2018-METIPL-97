@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.InputMethodListener;
@@ -12,9 +13,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -76,9 +80,21 @@ private ArrayList<Publicacao> lista_publicacoes;
 private JPanel configPanel;
 private  JScrollPane scroll_config;
 private File inputFile; 
-//private JTextArea configText;
+private JCheckBox ultimas;
+private boolean pesquisa_kw;
+private String palavra_chave;
+private ArrayList<Publicacao> lista_publicacoes_filtradas;
+private XMLConfig config ;
 
-public GUI () throws Exception, Exception {
+/**
+ * Classe que desenha a interface gráfica segundo o ficheiro XML config que contem todas as configurações
+ * @param config
+ * @throws Exception
+ * @throws Exception
+ */
+public GUI (XMLConfig config) throws Exception, Exception {
+		
+		this.config=config;
 		
 		frame = new JFrame ();
 		frame.setLayout(new BorderLayout() );
@@ -102,7 +118,9 @@ public GUI () throws Exception, Exception {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 	}
 		
-//desenha o  painel das publicações e selecciona as publicações a apresentar 
+/**Método que desenha o  painel das publicações e selecciona as publicações a apresentar 
+ * 
+ */
 	private void desenha_painelPosts() {
 		lista_posts = new JList<String>();
 	     lista_posts.addListSelectionListener(new ListSelectionListener() {
@@ -126,7 +144,10 @@ public GUI () throws Exception, Exception {
 	       posts=new JTextArea();
 	       posts.setLineWrap(true);
 	}
-	 //Desenha a publicação desejada numa nova janela 
+	 /**Método que desenha a publicação desejada numa nova janela 
+	  * 
+	  * @param Publicacao-post
+	  */
 	protected void DesenhaPost(Publicacao post) {
 		JFrame janela = new JFrame ("POST");
 		janela.setLayout(new BorderLayout() );
@@ -141,24 +162,28 @@ public GUI () throws Exception, Exception {
 		janela.setSize(d);
 		janela.setVisible(true);	
 	}
-	 //Desenha o painel de Configurações 
+	 /**Método que desenha o painel de Configurações com os dados carregados do ficheiro config, desenha os utilizadores e os filtros 
+	  * utilizados
+	  * 
+	  */
 	private void desenha_config() {
 		
 		configPanel = new JPanel ();
-		configPanel.setLayout(new GridLayout(2,0));
+		configPanel.setLayout(new GridLayout(3,0));
 		
+		//Parte referente aos dados dos utilizadores 
 		JPanel config_dados = new JPanel ();
 		config_dados.setLayout(new GridLayout(3,2));
 		
-		JPanel config_filtros = new JPanel();
-		JLabel filtros= new JLabel("Filtros");
-		config_filtros.add(filtros);
-
 		JLabel twitter = new JLabel("Twitter");
 		
 		JLabel user= new JLabel("Username");
-		JTextArea user_text= new JTextArea();
+		
+		String user_twitter = config.getuser("Twitter");
+		
+		JTextArea user_text= new JTextArea(user_twitter);
 		JLabel pass= new JLabel("Password");
+		
 		
 		JPasswordField passwordtwitter = new JPasswordField(10);
 		
@@ -175,7 +200,8 @@ public GUI () throws Exception, Exception {
 		JLabel pass_face= new JLabel("Password");
 
 		JPasswordField passwordfacebook = new JPasswordField(10);
-		JTextArea user_text_facebook= new JTextArea();
+		String user_facebook = config.getuser("Facebook");
+		JTextArea user_text_facebook= new JTextArea(user_facebook);
 
 		JPanel user_passf= new JPanel();
 		user_passf.setLayout(new GridLayout(2,2));
@@ -190,7 +216,9 @@ public GUI () throws Exception, Exception {
 		JLabel user_email= new JLabel("Username");
 		JLabel pass_email= new JLabel("Password");
 		JPasswordField passwordemail = new JPasswordField(10);
-		JTextArea user_text_email= new JTextArea();
+		
+		String username_email = config.getuser("Email");
+		JTextArea user_text_email= new JTextArea(username_email);
 
 		JPanel user_pass_email= new JPanel();
 		user_pass_email.setLayout(new GridLayout(2,2));
@@ -209,90 +237,58 @@ public GUI () throws Exception, Exception {
 		config_dados.add(email);
 		config_dados.add(user_pass_email);
 		
+		//Parte referente aos filtros
+		JPanel config_filtros = new JPanel();
+		config_filtros.setLayout(new GridLayout(3,2));
+		
+		JLabel filtros= new JLabel("Filtros: ");
+		config_filtros.add(filtros);
+		JLabel vazio=new JLabel("");
+		config_filtros.add(vazio);
+		
+		JLabel filtro_palavra_chave= new JLabel("Palavra-chave");
+		JTextArea palavra = new JTextArea();
+		config_filtros.add(filtro_palavra_chave);
+		config_filtros.add(palavra);
+		
+		JLabel ultimas_24h= new JLabel("Ultimas 24 horas: ");
+		ultimas= new JCheckBox();
+		config_filtros.add(ultimas_24h);
+		config_filtros.add(ultimas);
+		
+		JPanel aplicar_panel= new JPanel();
+		aplicar_panel.setLayout(null);
+		JButton aplicar = new JButton ("Aplicar");
+		aplicar.setSize(100, 50);
+		aplicar.addActionListener(new ActionListener() {
+		
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(ultimas.isSelected())
+					config.setFiltro24(true);
+				if(!palavra.getText().equals(null)) {
+					config.setFiltro_pesquisa(palavra.getText());
+					palavra_chave=palavra.getText();
+					pesquisa_kw=true;
+				}
+				
+				update(filtros(),true);
+
+			}
+			});
+			
+		aplicar_panel.add(aplicar, BorderLayout.CENTER);
+
 		configPanel.add(config_dados);
 		configPanel.add(config_filtros);
-
-
-		
-	
-		try {
-		inputFile = new File("config.xml");
-		
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document docConfig = dBuilder.parse(inputFile);
-        docConfig.getDocumentElement().normalize();         
-        System.out.println("\n A Carregar Configurações");
-		
-	    	
-	    XPathFactory xpathFactory = XPathFactory.newInstance();
-	    XPath xpath = xpathFactory.newXPath();
-	    XPathExpression expr = xpath.compile("/XML/Service/@*");
-	    NodeList nl = (NodeList) expr.evaluate(docConfig, XPathConstants.NODESET);
-	      for (int i = 0; i < nl.getLength(); i++) {
-	    	  System.out.print(nl.item(i).getNodeName()  + ": ");
-	          System.out.println(nl.item(i).getFirstChild().getNodeValue());
-	        }
-	        
-	        // Directorias    
-	        expr = xpath.compile("/XML/Paths/docPath");
-	        String str = (String) expr.evaluate(docConfig, XPathConstants.STRING);
-	      //CATARINA  JTextArea  pathList = new JTextArea("docPath: " + str);
-	        System.out.println("docPath: " + str);
-	        
-	       //CATARINA scroll_config = new JScrollPane(configText);
-	      
-	        //configText.add(usersHeader);
-	       //configText.add(usersList);
-	       //configText.add(pathHeader);
-	       //configText.add(pathList);  
-	        SaveXML(docConfig);
-		}
-		catch (Exception e) { e.printStackTrace(); }
-	
-	
-		
-		
-	
+		configPanel.add(aplicar_panel);
 	
 	}
 
-	
-	private void AddNewConfig(Document doc) {
-		
-        Element newElement1 = doc.createElement("Service");
-        newElement1.setAttribute("Protocol", "smtp");
-        newElement1.setAttribute("Account", "manuel@iscte-iul.pt");
-        newElement1.setAttribute("Password", "xyzw");
-        
-        // Adding new element OtherNewTag to the XML document (root node)
-        System.out.println("----- Adding new element <OtherNewTag> to the XML document -----");
-
-        Element newElement2 = doc.createElement("OtherNewTag");
-        newElement2.setTextContent("More new data"); 
-        
-        // Add new nodes to XML document (root element)
-        System.out.println("Root element :" + doc.getDocumentElement().getNodeName());         
-        Node n = doc.getDocumentElement();
-        n.appendChild(newElement1);
-        n.appendChild(newElement2);   
-    }      
-      
-	private void SaveXML(Document doc) {
-		try {
-        // Save XML document
-        //System.out.println("\nSave XML document.");
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        StreamResult result = new StreamResult(new FileOutputStream("config.xml"));
-        DOMSource source = new DOMSource(doc);
-        transformer.transform(source, result);
-		}
-		catch (Exception e) { e.printStackTrace(); }
-     } 
-	
-
-	 //desenha o painel dos filtros para fazer a selecção das fontes a aparecer , implementa os filtros do Twitter,Facebook e Email 	
+	 /**Método que desenha o painel dos filtros para fazer a selecção das fontes a aparecer
+	  * implementa os filtros do Twitter,Facebook e Email 
+	  * 	
+	  */
 	private void desenha_painel_seleccao() {
 	
 		painel_seleccao= new JPanel() ;
@@ -395,23 +391,40 @@ public GUI () throws Exception, Exception {
 		painel_seleccao.add(facebook);
 		painel_seleccao.add(check_facebook);
 }
-	  //Inicia o programa 
+	 /**Método que inicia a janela
+	  * 
+	  */
 	public void inicia() {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	//Faz o update das publicações publicadas por Facebook, Twitter e Email
-	public void update(ArrayList<Publicacao> publicacoes) {
+	/**Método que faz o update das publicações a aparecer na janela segundo as publicações que recebe
+	 * o parametro boolean é referente ao facto destas publicações serem devidas a publicações carregadas pelas fontes ou
+	 * devido a filtros  
+	 * @param ArrayList<Publicacao>-publicacoes
+	 * @param boolean- b
+	 */
+	
+	public void update(ArrayList<Publicacao> publicacoes, boolean b) {
 		
 		model = new DefaultListModel<>();
 		lista_posts.setModel(model);
 		//Collections.sort(publicacoes);
+		if(b) {
+			Collections.sort(publicacoes);
+			for (Publicacao post : lista_publicacoes_filtradas){
+				model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
+				
+			 	}
+		}
+	else {
 		
 		if(lista_publicacoes.size()==0) {
 			lista_publicacoes=publicacoes;
 			Collections.sort(publicacoes);
 
 		}
+		
 		else {
 			lista_publicacoes.addAll(publicacoes);
 			Collections.sort(publicacoes);
@@ -422,7 +435,108 @@ public GUI () throws Exception, Exception {
 			model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
 			
 		 	}
-	
+	}
 	}
 		
+
+	/**Função que executa as configurações estabelecidas pelos filtros 
+	 * chama o método update para fazer a actualização das mesmas
+	 * @return ArrayList<Publicacao>
+	 */
+	public ArrayList<Publicacao> filtros() {
+	
+		lista_publicacoes_filtradas = new ArrayList<>();
+		if(!ultimas.isSelected() && !pesquisa_kw) {
+			System.out.println("AQUIII");
+			update(lista_publicacoes,false);
+			return lista_publicacoes;
+		}
+		if(ultimas.isSelected()) {
+			for (Publicacao post : lista_publicacoes){
+				
+				Date d= post.getData();
+				int post_horas=d.getHours();
+				int post_minutos=d.getMinutes();
+				int post_day=d.getDate();
+				
+				
+				Calendar data;
+				data=Calendar.getInstance();
+				Date data_limite= new Date(data.get(Calendar.YEAR)-1900, data.get(Calendar.MONTH), data.get(Calendar.DATE)-1, data.get(Calendar.HOUR_OF_DAY), data.get(Calendar.MINUTE)) ;
+				
+				if(d.getMonth()==data_limite.getMonth()) {
+				
+					if(d.getDate()>=data_limite.getDate()) {
+						System.out.println("Datas do dia anterior" + d.getDate());
+						lista_publicacoes_filtradas.add(post);
+							}
+				}
+			
+				
+				
+		}
+		
+		}
+			if(pesquisa_kw) {
+				for (Publicacao post : lista_publicacoes){
+
+					String texto= post.getMensagem();
+					
+					String [] palavras =texto.split("\\s+|\\.|,|;");
+					int contador=0;
+					
+					if(palavra_chave.contains(" ")){
+						
+						for (int i =0 ; i<texto.length()-palavra_chave.length() ; i++){
+							
+							Character procura_primeiro = texto.charAt(i);
+							Character procura_ultimo = texto.charAt(palavra_chave.length()+i-1);
+							
+							Character primeiro_caracter_palavra = palavra_chave.charAt(0);
+							Character ultimo_caracter_palavra = palavra_chave.charAt(palavra_chave.length()-1);
+							
+							if(procura_primeiro.equals(primeiro_caracter_palavra) && procura_ultimo.equals(ultimo_caracter_palavra)){
+								String str =texto.substring(i, i+palavra_chave.length());
+								
+									if(str.equals(palavra_chave))
+											contador=contador+1;
+									
+							}
+							if(contador>0 && i==texto.length()-palavra_chave.length()-1){
+								if(!lista_publicacoes_filtradas.contains(post))
+									lista_publicacoes_filtradas.add(post);
+								
+							}
+							
+							
+						}
+					}
+					else{
+					
+						for (int i=0 ; i<palavras.length ; i++){
+					
+							String t=palavras[i];
+							if(t.equals(palavra_chave)){
+								contador=contador+1;
+								}
+							if(contador>0 && i==palavras.length-1){
+								if(!lista_publicacoes_filtradas.contains(post))
+									lista_publicacoes_filtradas.add(post);
+							
+								
+								}
+					
+						}
+					}
+					
+					
+				}
+							
+				}				
+			return lista_publicacoes_filtradas;
+
+			}
+			
 }
+
+
