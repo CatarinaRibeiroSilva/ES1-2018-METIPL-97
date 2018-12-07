@@ -15,7 +15,7 @@ public class BDA {
 	public static void main (String[] args) throws Exception {
 		// inicio teste bam
 		
-		XMLConfig config= new XMLConfig(new File("config.xml"));
+		XMLConfig config= new XMLConfig();
 		GUI window= new GUI(config);
 		
 		//FacebookFeed facebook= new FacebookFeed (window);
