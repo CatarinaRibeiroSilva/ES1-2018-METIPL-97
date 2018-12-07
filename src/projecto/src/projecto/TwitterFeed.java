@@ -12,6 +12,7 @@ public final class TwitterFeed  {
 	private GUI gui;
 	private String filter;
 	private ArrayList<Publicacao> publicacoes;
+	
 
 	public TwitterFeed(String filter, GUI gui) {
 		this.filter=filter;

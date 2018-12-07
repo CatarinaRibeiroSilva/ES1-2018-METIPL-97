@@ -14,6 +14,7 @@ public class FacebookFeed {
 	private ArrayList<Publicacao> publicacoes;
 	private GUI window;
 	
+	
 	public FacebookFeed(GUI window) {
 		/* Facebook API Tutorials in Java # 1 | Setup Development Environment 
 		 * https://www.youtube.com/watch?v=m14hYs1T3FA&index=1&list=PLYPFxrXyK0BwiXNe09hTPjFqYbsWv8gxb

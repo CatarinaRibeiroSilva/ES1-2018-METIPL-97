@@ -9,6 +9,7 @@ public class Publicacao implements Comparable <Publicacao>{
 	private String titulo;
 	private String data;
 	private Date date;
+	
 /** Classe que define as Publicacoes 
  * @param String tipo - fonte da publicação (Ex. Facebook, Twitter, Email)
  * @param String origem - autor da publicação
