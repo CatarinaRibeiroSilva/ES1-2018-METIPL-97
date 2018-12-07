@@ -83,6 +83,22 @@ public class XMLConfig {
         transformer.transform(source, result);
 		}
 		catch (Exception e) { e.printStackTrace(); }
-     } 
+     }
+	
+	//Devolve o username  de um determinado serviço definido pela String . Exemplo : String=Facebook , devolve uma String com o username registado do Facebook
+	public String getuser(String string) {
+		// TODO Auto-generated method stub
+		return "xxxx";
+	}
+//Define no ficheiro a pesquisa das 24horas. Isto é se receber true, altera activa o filtro para as publicacoes das ultimas 24hora. 
+	public void setFiltro24(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+//Define o filtro da pesquisa por palavra. 
+	public void setFiltro_pesquisa(String text) {
+		// TODO Auto-generated method stub
+		
+	} 
 	
 }

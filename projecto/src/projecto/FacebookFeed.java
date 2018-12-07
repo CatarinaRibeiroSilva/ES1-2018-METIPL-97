@@ -69,7 +69,7 @@ public class FacebookFeed {
 			}
 		}
 		System.out.println("------------\nNº of Results: " + counter5+"/"+counterTotal);
-		window.update(publicacoes);	
+		window.update(publicacoes,false);	
 	}		
 
 	public ArrayList<Publicacao> getPosts() {
