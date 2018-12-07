@@ -410,8 +410,10 @@ public GUI (XMLConfig config) throws Exception, Exception {
 	/**Método que faz o update das publicações a aparecer na janela segundo as publicações que recebe
 	 * o parametro boolean é referente ao facto destas publicações serem devidas a publicações carregadas pelas fontes ou
 	 * devido a filtros  
-	 * @param ArrayList<Publicacao>-publicacoes
-	 * @param boolean- b
+	 * @param publicacoes
+	 * As publicacoes sao os posts que vao aparecer na janela
+	 * @param b
+	 * O Boolean b é referente ao facto do update ser de um filtro (b=true) ou não
 	 */
 	
 	public void update(ArrayList<Publicacao> publicacoes, boolean b) {

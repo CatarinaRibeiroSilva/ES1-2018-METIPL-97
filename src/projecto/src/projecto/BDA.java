@@ -8,7 +8,7 @@ import java.util.Date;
 import org.w3c.dom.Document;
 
 public class BDA {
-		/**
+		/** Main
 		 * 
 		 * @param args
 		 * @throws Exception

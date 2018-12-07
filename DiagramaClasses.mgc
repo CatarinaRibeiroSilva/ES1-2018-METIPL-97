@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="src.projecto.src.projecto.GUI" x="381" y="206">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="src.projecto.src.projecto.Publicacao"
+            endpointName="lista_publicacoes_filtradas" kind="Simple"/>
+        <Association
+            destinationClassName="src.projecto.src.projecto.Publicacao"
+            endpointName="lista_publicacoes" kind="Simple"/>
+        <Association
+            destinationClassName="src.projecto.src.projecto.XMLConfig"
+            endpointName="config" kind="Simple"/>
+        <Communication destinationClassName="src.projecto.src.projecto.Publicacao"/>
+        <Communication destinationClassName="src.projecto.src.projecto.XMLConfig"/>
+    </Class>
+    <Class name="src.projecto.src.projecto.BDA" x="101" y="161">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="src.projecto.src.projecto.GUI"/>
+    </Class>
+    <Class name="src.projecto.src.projecto.Publicacao" x="471" y="8">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="src.projecto.src.projecto.TwitterFeed" x="114" y="49">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="src.projecto.src.projecto.Publicacao"
+            endpointName="publicacoes" kind="Simple"/>
+        <Association
+            destinationClassName="src.projecto.src.projecto.GUI"
+            endpointName="gui" kind="Simple"/>
+        <Communication destinationClassName="src.projecto.src.projecto.GUI"/>
+    </Class>
+    <Class name="src.projecto.src.projecto.FacebookFeed" x="254" y="103">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="src.projecto.src.projecto.Publicacao"
+            endpointName="publicacoes" kind="Simple"/>
+        <Association
+            destinationClassName="src.projecto.src.projecto.GUI"
+            endpointName="window" kind="Simple"/>
+        <Communication destinationClassName="src.projecto.src.projecto.GUI"/>
+    </Class>
+    <Class name="src.projecto.src.projecto.XMLConfig" x="46" y="331">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+</ClassDiagram>
