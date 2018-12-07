@@ -442,8 +442,8 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		
 	for (Publicacao post : lista_publicacoes){
 			model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
-			
 		 	}
+
 	}
 	}
 		
