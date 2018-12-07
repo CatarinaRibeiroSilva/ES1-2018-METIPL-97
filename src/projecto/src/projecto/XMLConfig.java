@@ -1,4 +1,4 @@
-package projecto.src.projecto;
+package src.projecto.src.projecto;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,19 +24,33 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
+/** Classe que gera informação de configuração que está no ficheiro "config.xml"
+ * 
+ * @author Catarina Silva
+ *
+ */
 public class XMLConfig {
-	
 	public File inputFile;// = new File("config.xml");
 	
 	public DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     public DocumentBuilder dBuilder;
     public Document docConfig;
-    
+    /**
+     * Inicialização da class XMLConfig 
+     * @param file
+     * File é ficheiro onde estão gravadas todas as configurações da App
+     */
     public XMLConfig(File file) {
 		this.inputFile=file;
 	}
-              
+    
+    /**
+     * Abertura  do ficheiro XML
+     * @throws Exception 
+     * caso o ficheiro nao seja encontrado
+     * @throws IOException 
+     * caso o ficheiro não consiga ser aberto
+     */
     public void OpenFile() throws Exception, IOException {
 		dBuilder = dbFactory.newDocumentBuilder();
 		docConfig = dBuilder.parse(inputFile);
@@ -44,6 +58,13 @@ public class XMLConfig {
 		docConfig.getDocumentElement().normalize();  
     }
 
+    /**
+     * Adiciona um novo utilizador as configurações
+     * @param account
+     * conta do utilizador
+     * @param passWord
+     * passaword da conta
+     */
 	public void AddNewUserToConfig(String account, String passWord) {
         Element newElement = docConfig.createElement("User");
         newElement.setAttribute("Account", account);
@@ -52,6 +73,7 @@ public class XMLConfig {
         Node n = docConfig.getDocumentElement();
         n.appendChild(newElement);
 	}
+	
 	
 	public void AddNewFilterToConfig(String filterName, String filterConfig) {
         Element newElement = docConfig.createElement("Filter");

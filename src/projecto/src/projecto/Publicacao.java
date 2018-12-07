@@ -1,4 +1,4 @@
-package projecto.src.projecto;
+package src.projecto.src.projecto;
 
 import java.util.Date;
 

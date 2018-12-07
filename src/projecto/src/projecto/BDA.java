@@ -1,4 +1,4 @@
-package projecto.src.projecto;
+package src.projecto.src.projecto;
 
 import java.io.File;
 import java.util.ArrayList;
