@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.InputMethodListener;
@@ -81,11 +82,14 @@ private  JScrollPane scroll_config;
 private File inputFile; 
 private JCheckBox ultimas;
 private boolean pesquisa_kw;
-private String palavra_chave="Bom";
+private String palavra_chave;
 private ArrayList<Publicacao> lista_publicacoes_filtradas;
+private XMLConfig config ;
 
 
-public GUI () throws Exception, Exception {
+public GUI (XMLConfig config) throws Exception, Exception {
+		
+		this.config=config;
 		
 		frame = new JFrame ();
 		frame.setLayout(new BorderLayout() );
@@ -153,7 +157,6 @@ public GUI () throws Exception, Exception {
 		
 		configPanel = new JPanel ();
 		configPanel.setLayout(new GridLayout(3,0));
-		pesquisa_kw=true;
 		
 		//Parte referente aos dados dos utilizadores 
 		JPanel config_dados = new JPanel ();
@@ -162,8 +165,12 @@ public GUI () throws Exception, Exception {
 		JLabel twitter = new JLabel("Twitter");
 		
 		JLabel user= new JLabel("Username");
-		JTextArea user_text= new JTextArea();
+		
+		String user_twitter = config.getuser("Twitter");
+		
+		JTextArea user_text= new JTextArea(user_twitter);
 		JLabel pass= new JLabel("Password");
+		
 		
 		JPasswordField passwordtwitter = new JPasswordField(10);
 		
@@ -180,7 +187,8 @@ public GUI () throws Exception, Exception {
 		JLabel pass_face= new JLabel("Password");
 
 		JPasswordField passwordfacebook = new JPasswordField(10);
-		JTextArea user_text_facebook= new JTextArea();
+		String user_facebook = config.getuser("Facebook");
+		JTextArea user_text_facebook= new JTextArea(user_facebook);
 
 		JPanel user_passf= new JPanel();
 		user_passf.setLayout(new GridLayout(2,2));
@@ -195,7 +203,9 @@ public GUI () throws Exception, Exception {
 		JLabel user_email= new JLabel("Username");
 		JLabel pass_email= new JLabel("Password");
 		JPasswordField passwordemail = new JPasswordField(10);
-		JTextArea user_text_email= new JTextArea();
+		
+		String username_email = config.getuser("Email");
+		JTextArea user_text_email= new JTextArea(username_email);
 
 		JPanel user_pass_email= new JPanel();
 		user_pass_email.setLayout(new GridLayout(2,2));
@@ -213,7 +223,6 @@ public GUI () throws Exception, Exception {
 
 		config_dados.add(email);
 		config_dados.add(user_pass_email);
-		
 		
 		//Parte referente aos filtros
 		JPanel config_filtros = new JPanel();
@@ -238,7 +247,24 @@ public GUI () throws Exception, Exception {
 		aplicar_panel.setLayout(null);
 		JButton aplicar = new JButton ("Aplicar");
 		aplicar.setSize(100, 50);
+		//aplicar.addActionListener(new ActionListener())
+		aplicar.addActionListener(new ActionListener() {
+		
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(ultimas.isSelected())
+					config.setFiltro24(true);
+				if(!palavra.getText().equals(null)) {
+					config.setFiltro_pesquisa(palavra.getText());
+					palavra_chave=palavra.getText();
+					pesquisa_kw=true;
+				}
+				
+				update(filtros(),true);
 
+			}
+			});
+			
 		aplicar_panel.add(aplicar, BorderLayout.CENTER);
 
 		configPanel.add(config_dados);
@@ -357,17 +383,26 @@ public GUI () throws Exception, Exception {
 	}
 	//Faz o update das publicações publicadas por Facebook, Twitter e Email
 	//Actualiza o painel de publicacões
-	public void update(ArrayList<Publicacao> publicacoes) {
+	public void update(ArrayList<Publicacao> publicacoes, boolean b) {
 		
 		model = new DefaultListModel<>();
 		lista_posts.setModel(model);
 		//Collections.sort(publicacoes);
+		if(b) {
+			Collections.sort(publicacoes);
+			for (Publicacao post : lista_publicacoes_filtradas){
+				model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
+				
+			 	}
+		}
+	else {
 		
 		if(lista_publicacoes.size()==0) {
 			lista_publicacoes=publicacoes;
 			Collections.sort(publicacoes);
 
 		}
+		
 		else {
 			lista_publicacoes.addAll(publicacoes);
 			Collections.sort(publicacoes);
@@ -378,15 +413,20 @@ public GUI () throws Exception, Exception {
 			model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
 			
 		 	}
-	
+	}
 	}
 		
 
 	//Função que executa as configurações estabelecidas 
-	public void filtros() {
+	public ArrayList<Publicacao> filtros() {
 	
 		lista_publicacoes_filtradas = new ArrayList<>();
-		//if(ultimas.isSelected()) {
+		if(!ultimas.isSelected() && !pesquisa_kw) {
+			System.out.println("AQUIII");
+			update(lista_publicacoes,false);
+			return lista_publicacoes;
+		}
+		if(ultimas.isSelected()) {
 			for (Publicacao post : lista_publicacoes){
 				
 				Date d= post.getData();
@@ -411,11 +451,11 @@ public GUI () throws Exception, Exception {
 				
 		}
 		
+		}
 			if(pesquisa_kw) {
 				for (Publicacao post : lista_publicacoes){
 
 					String texto= post.getMensagem();
-					System.out.println("AQUI");
 					
 					String [] palavras =texto.split("\\s+|\\.|,|;");
 					int contador=0;
@@ -438,11 +478,9 @@ public GUI () throws Exception, Exception {
 									
 							}
 							if(contador>0 && i==texto.length()-palavra_chave.length()-1){
+								if(!lista_publicacoes_filtradas.contains(post))
+									lista_publicacoes_filtradas.add(post);
 								
-								lista_publicacoes_filtradas.add(post);
-								//noticia.setNumero(contador);
-								//servidor.resultadoPesquisa(noticia,id);
-								//return;
 							}
 							
 							
@@ -457,10 +495,10 @@ public GUI () throws Exception, Exception {
 								contador=contador+1;
 								}
 							if(contador>0 && i==palavras.length-1){
-								lista_publicacoes_filtradas.add(post);
-								//noticia.setNumero(contador);
-								//servidor.resultadoPesquisa(noticia,id);
-								//return;
+								if(!lista_publicacoes_filtradas.contains(post))
+									lista_publicacoes_filtradas.add(post);
+							
+								
 								}
 					
 						}
@@ -470,7 +508,7 @@ public GUI () throws Exception, Exception {
 				}
 							
 				}				
-			System.out.println(lista_publicacoes_filtradas.size());
+			return lista_publicacoes_filtradas;
 
 			}
 			
