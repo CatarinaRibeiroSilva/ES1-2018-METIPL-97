@@ -91,8 +91,6 @@ public class XMLConfig {
 
 	public void setFiltro_pesquisa(String text) {
 		// TODO Auto-generated method stub
-		
-		
 	}
 	
 
