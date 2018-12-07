@@ -110,4 +110,9 @@ public class XMLConfig {
 		catch (Exception e) { e.printStackTrace(); }
      }
 
+	public ArrayList<Publicacao> getPublicacoes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
