@@ -71,11 +71,13 @@ public class XMLConfig {
         Node n = docConfig.getDocumentElement();
         n.appendChild(newElement);
 	}
+	
+	public void editUser(String username) {
+		
+	}
       
 	public void SaveXML() {
 		try {
-        // Save XML document
-        //System.out.println("\nSave XML document.");
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         StreamResult result = new StreamResult(new FileOutputStream("config.xml"));
