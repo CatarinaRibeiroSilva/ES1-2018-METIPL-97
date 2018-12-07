@@ -148,7 +148,8 @@ public GUI (XMLConfig config) throws Exception, Exception {
 	}
 	 /**Método que desenha a publicação desejada numa nova janela 
 	  * 
-	  * @param Publicacao-post
+	  * @param post
+	  * Desenha numa nova janela a publicação(post) seleccionada 
 	  */
 	protected void DesenhaPost(Publicacao post) {
 		JFrame janela = new JFrame ("POST");
@@ -189,6 +190,7 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		
 		
 		JPasswordField passwordtwitter = new JPasswordField(10);
+		passwordtwitter.setText("xxxxx");
 		
 		JPanel user_passt= new JPanel();
 		user_passt.setLayout(new GridLayout(2,2));
@@ -205,6 +207,8 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		JPasswordField passwordfacebook = new JPasswordField(10);
 		String user_facebook = config.getUser("Facebook");
 		JTextArea user_text_facebook= new JTextArea(user_facebook);
+		passwordfacebook.setText("xxxxx");
+
 
 		JPanel user_passf= new JPanel();
 		user_passf.setLayout(new GridLayout(2,2));
@@ -219,6 +223,8 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		JLabel user_email= new JLabel("Username");
 		JLabel pass_email= new JLabel("Password");
 		JPasswordField passwordemail = new JPasswordField(10);
+		passwordemail.setText("xxxxx");
+
 		
 		String username_email = config.getUser("Email");
 		JTextArea user_text_email= new JTextArea(username_email);
@@ -436,8 +442,8 @@ public GUI (XMLConfig config) throws Exception, Exception {
 		
 	for (Publicacao post : lista_publicacoes){
 			model.addElement(post.getTipo() + " - " + post.getOrigem() + " - " +post.getTitulo() + " - " + post.getData() + "\n");
-			
 		 	}
+
 	}
 	}
 		
