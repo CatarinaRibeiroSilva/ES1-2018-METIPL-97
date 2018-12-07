@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
@@ -30,8 +31,8 @@ import org.xml.sax.SAXException;
  *
  */
 public class XMLConfig {
-	public File inputFile;// = new File("config.xml");
 	
+	public File inputFile = new File("config.xml");
 	public DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     public DocumentBuilder dBuilder;
     public Document docConfig;
@@ -39,62 +40,54 @@ public class XMLConfig {
      * Inicialização da class XMLConfig 
      * @param file
      * File é ficheiro onde estão gravadas todas as configurações da App
-     */
-    public XMLConfig(File file) {
-		this.inputFile=file;
-	}
-    
-    /**
-     * Abertura  do ficheiro XML
-     * @throws Exception 
-     * caso o ficheiro nao seja encontrado
+     * @throws ParserConfigurationException 
      * @throws IOException 
-     * caso o ficheiro não consiga ser aberto
+     * @throws Exception 
      */
-    public void OpenFile() throws Exception, IOException {
+    public XMLConfig() throws ParserConfigurationException, Exception, IOException {
 		dBuilder = dbFactory.newDocumentBuilder();
 		docConfig = dBuilder.parse(inputFile);
 		System.out.println("\n A Carregar Configurações");
-		docConfig.getDocumentElement().normalize();  
-    }
-
+		docConfig.getDocumentElement().normalize(); 
+	}
+	
     /**
-     * Adiciona um novo utilizador as configurações
-     * @param account
-     * conta do utilizador
-     * @param passWord
-     * passaword da conta
+     * Lê as contas já existentes no xml, envia as mesmas para a interface
+     * @param social
+     * consoante a rede social em causa, irá devolver a conta correspondente
+     * @return
+     * devolve a conta
+     * @throws XPathExpressionException
+     * quando não consegue ler o xml
      */
-	public void AddNewUserToConfig(String account, String passWord) {
-        Element newElement = docConfig.createElement("User");
-        newElement.setAttribute("Account", account);
-        newElement.setAttribute("Password", passWord);
-        System.out.println("Root element :" + docConfig.getDocumentElement().getNodeName());         
-        Node n = docConfig.getDocumentElement();
-        n.appendChild(newElement);
+    public String getUser(String social) throws XPathExpressionException {
+		String account = null;
+		XPathFactory xpathFactory = XPathFactory.newInstance();
+	    XPath xpath = xpathFactory.newXPath();
+	    if (social.equals("Facebook")) {
+	    	XPathExpression socialMedia = xpath.compile("/XML/Facebook/@*");
+	        NodeList nl = (NodeList) socialMedia.evaluate(docConfig, XPathConstants.NODESET);
+	        account = nl.item(0).getFirstChild().getNodeValue();  	 
+	    }
+	    
+	    if (social.equals("Twitter")) {
+	    	XPathExpression socialMedia = xpath.compile("/XML/Twitter/@*");
+	        NodeList nl = (NodeList) socialMedia.evaluate(docConfig, XPathConstants.NODESET);
+	        account = nl.item(0).getFirstChild().getNodeValue();
+	    }
+	    
+	    if (social.equals("Email")) {
+	    	XPathExpression socialMedia = xpath.compile("/XML/Gmail/@*");
+	        NodeList nl = (NodeList) socialMedia.evaluate(docConfig, XPathConstants.NODESET);
+	        account = nl.item(0).getFirstChild().getNodeValue();
+	    }
+	    return account;
 	}
-	
-	
-	public void AddNewFilterToConfig(String filterName, String filterConfig) {
-        Element newElement = docConfig.createElement("Filter");
-        newElement.setAttribute("Name", filterName);
-        newElement.setAttribute("FilterConfig", filterConfig);
-        System.out.println("Root element :" + docConfig.getDocumentElement().getNodeName());         
-        Node n = docConfig.getDocumentElement();
-        n.appendChild(newElement);
-	}
-		
-	public void AddNewPostToConfig(String socialMedia, String post, String date, String hour ) {
-        Element newElement = docConfig.createElement("Filter");
-        newElement.setAttribute("Social", socialMedia);
-        newElement.setAttribute("Post", post);
-        newElement.setAttribute("Date", date);
-        newElement.setAttribute("Hour", hour);
-        System.out.println("Root element :" + docConfig.getDocumentElement().getNodeName());         
-        Node n = docConfig.getDocumentElement();
-        n.appendChild(newElement);
-	}
-      
+    
+    
+    /**
+     * Guarda todas as configurações adicionadas ao xml
+     */
 	public void SaveXML() {
 		try {
         // Save XML document
@@ -107,29 +100,20 @@ public class XMLConfig {
 		}
 		catch (Exception e) { e.printStackTrace(); }
      }
-	
-	//Devolve o username  de um determinado serviço definido pela String . Exemplo : String=Facebook , devolve uma String com o username registado do Facebook
-	public String getuser(String string) {
-		// TODO Auto-generated method stub
-		return "xxxx";
-	}
-//Define no ficheiro a pesquisa das 24horas. Isto é se receber true, altera activa o filtro para as publicacoes das ultimas 24hora. 
+
 	public void setFiltro24(boolean b) {
 		// TODO Auto-generated method stub
 		
 	}
-//Define o filtro da pesquisa por palavra. 
+
 	public void setFiltro_pesquisa(String text) {
 		// TODO Auto-generated method stub
 		
-	} 
-	
-	//Devolve as publicacoes guardadas no ficheiro CONFIG 
-	
-		public ArrayList<Publicacao> getPublicacoes() {
-			// TODO Auto-generated method stub
-			ArrayList<Publicacao> p =new ArrayList<Publicacao>();
-			return p; 
-		}
+	}
+
+	public ArrayList<Publicacao> getPublicacoes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<XML>
+	<Facebook account="fb@iscte-iul.pt" password="*******"></Facebook>
+	<Twitter account="twi@iscte-iul.pt" password="**********"></Twitter>
+	<Gmail account="gmail@iscte-iul.pt" password="********"></Gmail>
+	<KeyWordFilter KeyWord="Bom Dia"></KeyWordFilter>
+	<Filter24h On="No"></Filter24h>
+</XML>
